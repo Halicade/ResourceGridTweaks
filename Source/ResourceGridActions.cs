@@ -15,7 +15,6 @@ public class ResourceGridActions
                 Find.CurrentMap.deepResourceGrid.SetAt(cellLoc, null, 0);
             }
         });
-
     }
 
     [DebugAction(category: "Map", name: "Refresh deep resource (rect)", allowedGameStates = AllowedGameStates.PlayingOnMap, displayPriority = 100)]
@@ -41,13 +40,13 @@ public class ResourceGridActions
 
     [DebugAction("Map", "Replace deep resource (rect)", allowedGameStates = AllowedGameStates.PlayingOnMap, displayPriority = 100)]
     private static List<DebugActionNode> ReplaceDeepResource() {
-        List<DebugActionNode> list = new List<DebugActionNode>();
-        foreach (ThingDef item in DefDatabase<ThingDef>.AllDefs.Where((ThingDef resource) => resource.deepCommonality > 0)) {
+        List<DebugActionNode> list = [];
+        foreach (ThingDef item in DefDatabase<ThingDef>.AllDefs.Where(resource => resource.deepCommonality == 0)) {
             ThingDef itemReplacing = item;
             list.Add(new DebugActionNode(itemReplacing.defName)
             {
                 action = () => {
-                    DebugToolsGeneral.GenericRectTool(itemReplacing.defName, (CellRect rect) => {
+                    DebugToolsGeneral.GenericRectTool(itemReplacing.defName, rect => {
                         foreach (IntVec3 cellLoc in rect) {
 
                             if (Find.CurrentMap.deepResourceGrid.ThingDefAt(cellLoc) == null) {
@@ -65,13 +64,13 @@ public class ResourceGridActions
 
     [DebugAction("Map", "Generate deep resource (rect)", allowedGameStates = AllowedGameStates.PlayingOnMap, displayPriority = 100)]
     private static List<DebugActionNode> GenerateDeepResource() {
-        List<DebugActionNode> list = new List<DebugActionNode>();
-        foreach (ThingDef item in DefDatabase<ThingDef>.AllDefs.Where((ThingDef resource) => resource.deepCommonality > 0)) {
+        List<DebugActionNode> list = [];
+        foreach (ThingDef item in DefDatabase<ThingDef>.AllDefs.Where(resource => resource.deepCommonality > 0)) {
             ThingDef localDef = item;
             list.Add(new DebugActionNode(localDef.defName)
             {
                 action = () => {
-                    DebugToolsGeneral.GenericRectTool(localDef.defName, (CellRect rect) => {
+                    DebugToolsGeneral.GenericRectTool(localDef.defName, rect => {
                         foreach (IntVec3 cellLoc in rect) {
                             Find.CurrentMap.deepResourceGrid.SetAt(cellLoc, localDef, localDef.deepCountPerCell);
                         }
