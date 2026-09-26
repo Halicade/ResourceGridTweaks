@@ -41,7 +41,7 @@ public class ResourceGridActions
     [DebugAction("Map", "Replace deep resource (rect)", allowedGameStates = AllowedGameStates.PlayingOnMap, displayPriority = 100)]
     private static List<DebugActionNode> ReplaceDeepResource() {
         List<DebugActionNode> list = [];
-        foreach (ThingDef item in DefDatabase<ThingDef>.AllDefs.Where(resource => resource.deepCommonality == 0)) {
+        foreach (ThingDef item in DefDatabase<ThingDef>.AllDefs.Where(resource => resource.deepCommonality > 0)) {
             ThingDef itemReplacing = item;
             list.Add(new DebugActionNode(itemReplacing.defName)
             {
